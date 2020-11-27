@@ -13,6 +13,7 @@ spec:
       app: {{ template "cassandra.name" . }}
       release: {{ .Release.Name }}
   serviceName: {{ template "cassandra.fullname" . }}
+  serviceAccountName: {{ default .Release.Name .serviceAccount.name }}
   replicas: {{ .Values.config.cluster_size }}
   podManagementPolicy: {{ .Values.podManagementPolicy }}
   updateStrategy:

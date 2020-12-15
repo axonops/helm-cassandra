@@ -33,7 +33,7 @@ helm delete  --purge "cassandra"
 To upgrade your Cassandra release, simply run
 
 ```bash
-helm upgrade "cassandra" incubator/cassandra
+helm upgrade "cassandra" axonops-helm/cassandra
 ```
 
 ### 0.12.0

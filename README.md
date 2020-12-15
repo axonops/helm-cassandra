@@ -1,10 +1,20 @@
-# Digitalis cassandra chart
+# Digitalis Cassandra Chart
+
+## Digitalis Cassandra and AxonOps
+
+This chart was forked and adapted from [incubator](https://github.com/helm/charts/tree/master/incubator/cassandra) to run Cassandra together with [AxonOps](https://docs.axonops.com/installation/kubernetes/minikube/).
+
+Enable the chart repo with
+
+```bash
+helm repo add axonops-helm https://repo.axonops.com/public/helm/helm/charts/
+```
 
 ## Install Chart
 To install the Cassandra Chart into your Kubernetes cluster (This Chart requires persistent volume by default, you may need to create a storage class before install chart. To create storage class, see [Persist data](#persist_data) section)
 
 ```bash
-helm install --namespace "cassandra" -n "cassandra" incubator/cassandra
+helm install --namespace "cassandra" -n "cassandra" axonops-helm/cassandra
 ```
 
 After installation succeeds, you can get a status of Chart
@@ -23,7 +33,7 @@ helm delete  --purge "cassandra"
 To upgrade your Cassandra release, simply run
 
 ```bash
-helm upgrade "cassandra" incubator/cassandra
+helm upgrade "cassandra" axonops-helm/cassandra
 ```
 
 ### 0.12.0

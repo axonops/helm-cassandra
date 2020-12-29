@@ -263,3 +263,8 @@ extraContainers: []
 #   volumeMounts:
 #   - name: some-mount
 #     mountPath: /some/path
+
+# Same syntax as above
+extraInitVolumes: []
+extraInitVolumeMounts: []
+extraInitContainers: []

@@ -178,6 +178,9 @@ The following table lists the configurable parameters of the Cassandra chart and
 | `extraContainers`                    | Sidecar containers for the pods                 | `[]`                                                       |
 | `extraVolumes`                       | Additional volumes for the pods                 | `[]`                                                       |
 | `extraVolumeMounts`                  | Extra volume mounts for the pods                | `[]`                                                       |
+| `extraInitContainers`                | Sidecar containers to init the pods             | `[]`                                                       |
+| `extraInitVolumes`                   | Additional volumes for init containers          | `[]`                                                       |
+| `extraInitVolumeMounts`              | Extra volume mounts for init containers         | `[]`                                                       |
 | `affinity`                           | Kubernetes node affinity                        | `{}`                                                       |
 | `tolerations`                        | Kubernetes node tolerations                     | `[]`                                                       |
 

@@ -186,11 +186,13 @@ spec:
         {{- if .Values.extraVolumeMounts }}
 {{ toYaml .Values.extraVolumeMounts | indent 8 }}
         {{- end }}
-        {{- if not .Values.persistence.enabled }}
         lifecycle:
           preStop:
             exec:
+        {{- if not .Values.persistence.enabled }}
               command: ["/bin/sh", "-c", "exec nodetool decommission"]
+        {{- else }}
+              command: ["/bin/sh", "-c", "exec nodetool drain"]
         {{- end }}
       terminationGracePeriodSeconds: {{ default 30 .Values.podSettings.terminationGracePeriodSeconds }}
       {{- if .Values.image.pullSecrets }}

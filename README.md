@@ -36,16 +36,6 @@ To upgrade your Cassandra release, simply run
 helm upgrade "cassandra" axonops-helm/cassandra
 ```
 
-### 0.12.0
-
-This version fixes https://github.com/helm/charts/issues/7803 by removing mutable labels in `spec.VolumeClaimTemplate.metadata.labels` so that it is upgradable.
-
-Until this version, in order to upgrade, you have to delete the Cassandra StatefulSet before upgrading:
-```bash
-$ kubectl delete statefulset --cascade=false my-cassandra-release
-```
-
-
 ## Persist data
 You need to create `StorageClass` before able to persist data in persistent volume.
 To create a `StorageClass` on Google Cloud, run the following

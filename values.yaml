@@ -1,7 +1,7 @@
 ## Cassandra image version
 ## ref: https://hub.docker.com/r/library/cassandra/
 image:
-  repo: cassandra
+  repo: digitalisdocker/cassandra
   tag: 3.11.6
   pullPolicy: IfNotPresent
   ## Specify ImagePullSecrets for Pods
@@ -263,3 +263,8 @@ extraContainers: []
 #   volumeMounts:
 #   - name: some-mount
 #     mountPath: /some/path
+
+# Same syntax as above
+extraInitVolumes: []
+extraInitVolumeMounts: []
+extraInitContainers: []

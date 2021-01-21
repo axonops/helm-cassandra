@@ -36,16 +36,6 @@ To upgrade your Cassandra release, simply run
 helm upgrade "cassandra" axonops-helm/cassandra
 ```
 
-### 0.12.0
-
-This version fixes https://github.com/helm/charts/issues/7803 by removing mutable labels in `spec.VolumeClaimTemplate.metadata.labels` so that it is upgradable.
-
-Until this version, in order to upgrade, you have to delete the Cassandra StatefulSet before upgrading:
-```bash
-$ kubectl delete statefulset --cascade=false my-cassandra-release
-```
-
-
 ## Persist data
 You need to create `StorageClass` before able to persist data in persistent volume.
 To create a `StorageClass` on Google Cloud, run the following
@@ -107,8 +97,8 @@ The following table lists the configurable parameters of the Cassandra chart and
 
 | Parameter                  | Description                                     | Default                                                    |
 | -----------------------    | ---------------------------------------------   | ---------------------------------------------------------- |
-| `image.repo`                         | `cassandra` image repository                    | `cassandra`                                                |
-| `image.tag`                          | `cassandra` image tag                           | `3.11.5`                                                   |
+| `image.repo`                         | `cassandra` image repository                    | `digitalisdocker/cassandra`                                |
+| `image.tag`                          | `cassandra` image tag                           | `3.11.9`                                                   |
 | `image.pullPolicy`                   | Image pull policy                               | `Always` if `imageTag` is `latest`, else `IfNotPresent`    |
 | `image.pullSecrets`                  | Image pull secrets                              | `nil`                                                      |
 | `config.cluster_domain`              | The name of the cluster domain.                 | `cluster.local`                                            |
@@ -178,6 +168,9 @@ The following table lists the configurable parameters of the Cassandra chart and
 | `extraContainers`                    | Sidecar containers for the pods                 | `[]`                                                       |
 | `extraVolumes`                       | Additional volumes for the pods                 | `[]`                                                       |
 | `extraVolumeMounts`                  | Extra volume mounts for the pods                | `[]`                                                       |
+| `extraInitContainers`                | Sidecar containers to init the pods             | `[]`                                                       |
+| `extraInitVolumes`                   | Additional volumes for init containers          | `[]`                                                       |
+| `extraInitVolumeMounts`              | Extra volume mounts for init containers         | `[]`                                                       |
 | `affinity`                           | Kubernetes node affinity                        | `{}`                                                       |
 | `tolerations`                        | Kubernetes node tolerations                     | `[]`                                                       |
 

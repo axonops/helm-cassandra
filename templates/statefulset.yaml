@@ -13,7 +13,6 @@ spec:
       app: {{ template "cassandra.name" . }}
       release: {{ .Release.Name }}
   serviceName: {{ template "cassandra.fullname" . }}
-  serviceAccountName: {{ default .Release.Name .serviceAccount.name }}
   replicas: {{ .Values.config.cluster_size }}
   podManagementPolicy: {{ .Values.podManagementPolicy }}
   updateStrategy:
@@ -31,6 +30,7 @@ spec:
 {{ toYaml .Values.podAnnotations | indent 8 }}
 {{- end }}
     spec:
+      serviceAccountName: {{ include "cassandra.serviceAccountName" . }}
       {{- if .Values.schedulerName }}
       schedulerName: "{{ .Values.schedulerName }}"
       {{- end }}
@@ -53,6 +53,9 @@ spec:
 {{- end }}
 {{- if .Values.configOverrides }}
       initContainers:
+{{- if .Values.extraInitContainers }}
+{{ tpl (toYaml .Values.extraInitContainers) . | indent 6}}
+{{- end }}
       - name: config-copier
         image: busybox
         command: [ 'sh', '-c', 'cp /configmap-files/* /cassandra-configs/ && chown 999:999 /cassandra-configs/*']
@@ -64,6 +67,9 @@ spec:
 {{- end }}
         - name: cassandra-configs
           mountPath: /cassandra-configs/
+        {{- if .Values.extraInitVolumeMounts }}
+{{ toYaml .Values.extraInitVolumeMounts | indent 6 }}
+        {{- end }}
 {{- end }}
       containers:
 {{- if .Values.extraContainers }}
@@ -180,11 +186,13 @@ spec:
         {{- if .Values.extraVolumeMounts }}
 {{ toYaml .Values.extraVolumeMounts | indent 8 }}
         {{- end }}
-        {{- if not .Values.persistence.enabled }}
         lifecycle:
           preStop:
             exec:
+        {{- if not .Values.persistence.enabled }}
               command: ["/bin/sh", "-c", "exec nodetool decommission"]
+        {{- else }}
+              command: ["/bin/sh", "-c", "exec nodetool drain"]
         {{- end }}
       terminationGracePeriodSeconds: {{ default 30 .Values.podSettings.terminationGracePeriodSeconds }}
       {{- if .Values.image.pullSecrets }}
